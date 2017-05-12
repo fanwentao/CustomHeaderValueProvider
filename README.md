@@ -13,11 +13,18 @@ https://docs.microsoft.com/en-us/aspnet/web-api/overview/formats-and-model-bindi
 // 注册值提供器工厂到服务容器
 config.Services.Insert(typeof(ValueProviderFactory), 0, new CustomHeaderValueProviderFactory());
 
-// 不使用特性的情况下,方法参数必须是可选参数.
+// 方法参数必须是可选参数.
 public IHttpActionResult Method(int page = 1)
 
-// 使用特性
-public IHttpActionResult Method([FromHeader]int page)
+// 自定义类型
+// X-Page :10
+// X-Index :10
+public IHttpActionResult Method([FromHeader]Pager model)
+{
+     model.Page
+     model.Index
+}
+
 ``` 
 
 
