@@ -6,12 +6,18 @@
 https://docs.microsoft.com/en-us/aspnet/web-api/overview/formats-and-model-binding/parameter-binding-in-aspnet-web-api
 
 ## 使用
- * 注册全局值提供器工厂<br>
- * 方法参数添加特性<br>
+ * 注册值提供器工厂到服务容器<br>
+
 
 ```C#
+// 注册值提供器工厂到服务容器
 config.Services.Insert(typeof(ValueProviderFactory), 0, new CustomHeaderValueProviderFactory());
-[FromHeader]int page = 1
+
+// 不使用特性的情况下,方法参数必须是可选参数.
+public IHttpActionResult Method(int page = 1)
+
+// 使用特性
+public IHttpActionResult Method([FromHeader]int page)
 ``` 
 
 
