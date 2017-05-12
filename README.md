@@ -9,9 +9,10 @@ https://docs.microsoft.com/en-us/aspnet/web-api/overview/formats-and-model-bindi
 注册全局值提供器工厂
 方法参数添加特性
 
-- ** config.Services.Insert(typeof(ValueProviderFactory), 0, new CustomHeaderValueProviderFactory());
-- ** [FromHeader]int page = 1
-
+```C#
+config.Services.Insert(typeof(ValueProviderFactory), 0, new CustomHeaderValueProviderFactory());
+[FromHeader]int page = 1
+``` 
 
 
 
