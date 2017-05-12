@@ -24,11 +24,11 @@ public IHttpActionResult Method(int page = 1)
 
 // 自定义类型
 // X-Page :10
-// X-Index :10
+// X-Index :20
 public IHttpActionResult Method([FromHeader]Pager model)
 {
-     model.Page
-     model.Index
+     model.Page // 10
+     model.Index // 20
 }
 
 ``` 
