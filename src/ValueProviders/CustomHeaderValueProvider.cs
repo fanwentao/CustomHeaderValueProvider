@@ -12,6 +12,7 @@ namespace ValueProviders
 {
     public class CustomHeaderValueProvider : NameValuePairsValueProvider
     {
+        private const string CustomHeaderPrefix = "X-";
         public CustomHeaderValueProvider(HttpRequestMessage request, CultureInfo culture)
             : base(GetHeadersValues(request.Headers), culture)
         {
@@ -19,30 +20,13 @@ namespace ValueProviders
         }
         internal static Dictionary<string, object> GetHeadersValues(HttpRequestHeaders headers)
         {
-            return headers.ToDictionary(pair => pair.Key, pair => (object)pair.Value.ToList());
-        }
-
-        public override ValueProviderResult GetValue(string key)
-        {
-            if (key == null) throw new ArgumentNullException(nameof(key));
-
-            key = "X-" + ParseParameterName(key);
-
-            return base.GetValue(key);
-        }
-
-        internal static string ParseParameterName(string name)
-        {
-            var sb = new StringBuilder();
-            for (int i = 0; i < name.Length; i++)
+            var dic = new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase);
+            foreach (var header in headers.Where(pair => pair.Key.StartsWith(CustomHeaderPrefix, StringComparison.OrdinalIgnoreCase)))
             {
-                if (char.IsUpper(name[i]) && i != 0)
-                {
-                    sb.Append('-');
-                }
-                sb.Append(name[i]);
+                var key = header.Key.Substring(CustomHeaderPrefix.Length).Replace("-", string.Empty);
+                dic[key] = header.Value;
             }
-            return sb.ToString();
+            return dic;
         }
     }
 }
